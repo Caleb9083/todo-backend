@@ -1,13 +1,4 @@
-const express = require("express");
-
-const app = express();
-
-app.get("/", (req, res, next) => {
-  res.json({
-    status: "success",
-    message: "Home endpoint is working",
-  });
-});
+const app = require("./app");
 
 const PORT = process.env.PORT || 4000;
 

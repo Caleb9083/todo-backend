@@ -4,6 +4,7 @@ const cors = require("cors");
 const logger = require("morgan");
 
 const app = express();
+const userRouter = require("./routers/userRouter");
 
 //Middlewares
 app.use(bodyParser.json());
@@ -17,6 +18,8 @@ app.get("/", (req, res, next) => {
     message: "Home endpoint is working",
   });
 });
+
+app.use("/api/v1/user", userRouter);
 
 //Error handler
 app.use((err, req, res, next) => {

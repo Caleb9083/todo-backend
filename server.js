@@ -1,5 +1,7 @@
+const dbConfig = require("./dbConfig");
 const app = require("./app");
 
+dbConfig();
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {

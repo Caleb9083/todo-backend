@@ -19,11 +19,22 @@ app.get("/", (req, res, next) => {
   });
 });
 
-app.use("/api/v1/user", userRouter);
+app.use("/api/v1/users", userRouter);
 
 //Error handler
 app.use((err, req, res, next) => {
-  if (err) res.status(400).json({ status: "fail", message: "Bad request" });
+  if (err) {
+    if (process.env.NODE_ENV === "production") {
+      res.status(400).json({ status: "fail", message: "Bad request" });
+    } else {
+      res.status(400).json({
+        status: err.status,
+        message: err.message,
+        error: err,
+        stack: err.stack,
+      });
+    }
+  }
 });
 
 module.exports = app;

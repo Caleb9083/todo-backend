@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    unique: true,
+    lowercase: true,
     required: [true, "A user must have an email address"],
     validate: [validator.isEmail, "A user must provide a valid email address"],
   },

@@ -4,6 +4,9 @@
   "description": "A simple todo application that allows users to add, mark as complete, and delete tasks",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "start:dev": "set NODE_ENV=development&& nodemon server.js",
+    "start:prod": "set NODE_ENV=production&& node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +17,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.8.0",
     "morgan": "^1.10.0",
     "validator": "^13.7.0"

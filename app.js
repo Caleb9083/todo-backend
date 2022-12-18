@@ -5,6 +5,7 @@ const logger = require("morgan");
 
 const app = express();
 const userRouter = require("./routers/userRouter");
+const AppError = require("./utils/appError");
 
 //Middlewares
 app.use(bodyParser.json());
@@ -21,13 +22,18 @@ app.get("/", (req, res, next) => {
 
 app.use("/api/v1/users", userRouter);
 
+app.all("*", (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server`, 400));
+});
+
 //Error handler
 app.use((err, req, res, next) => {
   if (err) {
     if (process.env.NODE_ENV === "production") {
       res.status(400).json({ status: "fail", message: "Bad request" });
     } else {
-      res.status(400).json({
+      console.log(err);
+      res.status(err.statusCode).json({
         status: err.status,
         message: err.message,
         error: err,

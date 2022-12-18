@@ -1,7 +1,6 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
-const bcrypt = require("bcrypt");
 
 exports.signup = async (req, res, next) => {
   try {
@@ -56,3 +55,4 @@ exports.signin = async (req, res, next) => {
     return next(new AppError(`${err.message}`, 400));
   }
 };
+

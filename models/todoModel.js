@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const todoSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: [true, "A todo item must belong to a user"],
+  },
   name: {
     type: String,
     required: [true, "A todo must have a name"],

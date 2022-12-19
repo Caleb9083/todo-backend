@@ -2,6 +2,8 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
 const bcrypt = require("bcrypt");
+const { promisify } = require("util");
+
 exports.signup = async (req, res, next) => {
   try {
     const newUser = await User.create({
@@ -54,4 +56,34 @@ exports.signin = async (req, res, next) => {
   } catch (err) {
     return next(new AppError(`${err.message}`, 400));
   }
+};
+
+exports.protect = async (req, res, next) => {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+
+  if (!token) {
+    return next(
+      new AppError("You are not logged in! Please login to get access", 401)
+    );
+  }
+
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  const currentUser = await User.findById(decoded.id);
+
+  if (!currentUser) {
+    return next(
+      new AppError("The token belonging to this user does not exits", 401)
+    );
+  }
+
+  req.user = currentUser;
+  next();
 };

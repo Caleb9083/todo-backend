@@ -6,6 +6,7 @@ const logger = require("morgan");
 const app = express();
 const userRouter = require("./routers/userRouter");
 const AppError = require("./utils/appError");
+const todoRouter = require("./routers/todoRouter");
 
 //Middlewares
 app.use(bodyParser.json());
@@ -21,6 +22,7 @@ app.get("/", (req, res, next) => {
 });
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/todos", todoRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 400));

@@ -15,7 +15,45 @@ exports.createTodo = async (req, res, next) => {
   try {
     if (!req.body.user) req.body.user = req.params.userId;
     const newTodo = await Todo.create(req.body);
-    res.status(200).json({ status: "success", data: { data: newTodo } });
+    res.status(201).json({ status: "success", data: { data: newTodo } });
+  } catch (err) {
+    return next(new AppError(`${err.message}`, 400));
+  }
+};
+
+exports.getTodo = async (req, res, next) => {
+  try {
+    const todo = await Todo.findById(req.params.todoId);
+    res.status(200).json({ status: "success", data: { data: todo } });
+  } catch (err) {
+    return next(new AppError(`${err.message}`, 400));
+  }
+};
+
+exports.updateTodo = async (req, res, next) => {
+  try {
+    const todo = await Todo.findByIdAndUpdate(req.params.todoId, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!todo)
+      return next(new AppError("No document found with this ID!", 400));
+    res.status(200).json({
+      status: "success",
+      data: { data: todo },
+    });
+  } catch (err) {
+    return next(new AppError(`${err.message}`, 400));
+  }
+};
+
+exports.deleteTodo = async (req, res, next) => {
+  try {
+    const todo = await Todo.findByIdAndDelete(req.params.todoId);
+    if (!todo) {
+      return next(new AppError("No document found with this ID!", 400));
+    }
+    res.status(200).json({ status: "success", data: { data: null } });
   } catch (err) {
     return next(new AppError(`${err.message}`, 400));
   }

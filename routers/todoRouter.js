@@ -5,6 +5,10 @@ const router = express.Router({ mergeParams: true });
 
 router.route("/").get(todoController.getTodos).post(todoController.createTodo);
 
-router.route("/:id").get().patch().delete();
+router
+  .route("/:todoId")
+  .get(todoController.getTodo)
+  .patch(todoController.updateTodo)
+  .delete(todoController.deleteTodo);
 
 module.exports = router;

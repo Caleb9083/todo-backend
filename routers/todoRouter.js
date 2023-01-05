@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.use(authController.protect);
 
+router.route("/categories").get(todoController.getCategories);
+
 router.route("/").get(todoController.getTodos).post(todoController.createTodo);
 
 router

@@ -2,7 +2,7 @@ const express = require("express");
 const todoController = require("../controllers/todoController");
 const authController = require("../controllers/authController");
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 
 router.use(authController.protect);
 

@@ -3,7 +3,7 @@ const AppError = require("../utils/appError");
 
 exports.getTodos = async (req, res, next) => {
   try {
-    const todos = await Todo.find({ user: req.params.userId });
+    const todos = await Todo.find({ user: req.user.id });
 
     res.status(200).json({ status: "success", data: { data: todos } });
   } catch (err) {
@@ -13,7 +13,7 @@ exports.getTodos = async (req, res, next) => {
 
 exports.createTodo = async (req, res, next) => {
   try {
-    if (!req.body.user) req.body.user = req.params.userId;
+    if (!req.body.user) req.body.user = req.user.id;
     const newTodo = await Todo.create(req.body);
     res.status(201).json({ status: "success", data: { data: newTodo } });
   } catch (err) {

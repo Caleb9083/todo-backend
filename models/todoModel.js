@@ -14,6 +14,10 @@ const todoSchema = new mongoose.Schema({
     type: String,
     minlength: [10, "A description of a todo must have at least 10 characters"],
   },
+  category: {
+    type: String,
+    default: "Other",
+  },
   dueDate: { type: Date },
   important: {
     type: Boolean,

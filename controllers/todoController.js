@@ -58,3 +58,26 @@ exports.deleteTodo = async (req, res, next) => {
     return next(new AppError(`${err.message}`, 400));
   }
 };
+
+exports.getCategories = async (req, res, next) => {
+  try {
+    const categories = await Todo.find({ user: req.user.id }).distinct(
+      "category"
+    );
+    res.status(200).json({ status: "success", data: { data: categories } });
+  } catch (err) {
+    return next(new AppError(`${err.message}`, 400));
+  }
+};
+
+exports.getTodoByCategory = async (req, res, next) => {
+  try {
+    const todos = await Todo.find({
+      user: req.user.id,
+      category: req.params.category,
+    });
+    res.status(200).json({ status: "success", data: { data: todos } });
+  } catch (err) {
+    return next(new AppError(`${err.message}`, 400));
+  }
+};

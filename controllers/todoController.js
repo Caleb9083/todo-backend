@@ -71,10 +71,34 @@ exports.getCategories = async (req, res, next) => {
 };
 
 exports.getTodoByCategory = async (req, res, next) => {
+  let query;
+  switch (req.params.category) {
+    case "Today":
+      query = { category: req.params.category };
+      break;
+    case "Important":
+      query = { $or: [{ important: true }, { category: req.params.category }] };
+      break;
+    case "Planned":
+      query = {
+        $or: [{ dueDate: { $ne: null } }, { category: req.params.category }],
+      };
+      break;
+    case "Completed":
+      query = { $or: [{ completed: true }, { category: req.params.category }] };
+      break;
+    case "Other":
+      query = { category: req.params.category };
+      break;
+    default:
+      query = { category: req.params.category };
+      break;
+  }
+
   try {
     const todos = await Todo.find({
       user: req.user.id,
-      category: req.params.category,
+      ...query,
     });
     res.status(200).json({ status: "success", data: { data: todos } });
   } catch (err) {

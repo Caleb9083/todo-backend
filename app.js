@@ -7,6 +7,7 @@ const app = express();
 const userRouter = require("./routers/userRouter");
 const AppError = require("./utils/appError");
 const todoRouter = require("./routers/todoRouter");
+const categoryRouter = require("./routers/categoryRouter");
 
 //Middlewares
 app.use(bodyParser.json());
@@ -23,6 +24,7 @@ app.get("/", (req, res, next) => {
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/todos", todoRouter);
+app.use("/api/v1/categories", categoryRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 400));

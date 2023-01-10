@@ -22,3 +22,34 @@ exports.createCategory = async (req, res, next) => {
     return next(new AppError(`${err.message}`, 400));
   }
 };
+
+exports.getCategory = async (req, res, next) => {
+  try {
+    const category = await Category.findById(req.params.categoryId);
+    res.status(200).json({ status: "success", data: { data: category } });
+  } catch (err) {
+    return next(new AppError(`${err.message}`, 400));
+  }
+};
+
+exports.updateCategory = async (req, res, next) => {
+  try {
+    const category = await Category.findByIdAndUpdate(
+      req.params.categoryId,
+      res.body,
+      { new: true, runValidators: true }
+    );
+    res.status(200).json({ status: "success", data: { data: category } });
+  } catch (err) {
+    return next(new AppError(`${err.message}`, 400));
+  }
+};
+
+exports.deleteCategory = async (req, res, next) => {
+  try {
+    const category = await Category.findByIdAndDelete(req.params.categoryId);
+    res.status(200).json({ status: "success", data: { data: category } });
+  } catch (err) {
+    return next(new AppError(`${err.message}`, 400));
+  }
+};

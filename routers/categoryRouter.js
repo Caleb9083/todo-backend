@@ -11,4 +11,10 @@ router
   .get(categoryController.getAllCategories)
   .post(categoryController.createCategory);
 
+router
+  .route("/:categoryId")
+  .get(categoryController.getCategory)
+  .patch(categoryController.updateCategory)
+  .delete(categoryController.deleteCategory);
+
 module.exports = router;

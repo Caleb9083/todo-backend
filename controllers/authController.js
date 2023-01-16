@@ -78,7 +78,7 @@ exports.protect = async (req, res, next) => {
   try {
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
     const currentUser = await User.findById(decoded.id);
-    console.log(decoded, token);
+
     if (!currentUser) {
       return next(
         new AppError("The token belonging to this user does not exits", 401)
@@ -88,7 +88,6 @@ exports.protect = async (req, res, next) => {
     req.user = currentUser;
     next();
   } catch (error) {
-    error.message;
     return next(new AppError("JWT error", 400));
   }
 };

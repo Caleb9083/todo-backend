@@ -36,7 +36,7 @@ exports.updateCategory = async (req, res, next) => {
   try {
     const category = await Category.findByIdAndUpdate(
       req.params.categoryId,
-      res.body,
+      req.body,
       { new: true, runValidators: true }
     );
     res.status(200).json({ status: "success", data: { data: category } });
@@ -51,5 +51,17 @@ exports.deleteCategory = async (req, res, next) => {
     res.status(200).json({ status: "success", data: { data: category } });
   } catch (err) {
     return next(new AppError(`${err.message}`, 400));
+  }
+};
+
+exports.getCategoryId = async (req, res, next) => {
+  try {
+    const categoryId = await Category.findOne({
+      user: req.user.id,
+      category: req.params.category,
+    });
+    res.status(200).json({ status: "success", data: categoryId._id });
+  } catch (error) {
+    return next(new AppError(`This category does not exist`, 400));
   }
 };

@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.use(authController.protect);
 
+router.get("/getCategoryId/:category", categoryController.getCategoryId);
 router
   .route("/")
   .get(categoryController.getAllCategories)
